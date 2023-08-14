@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   
+    <title>Curriculo Felipe Leao</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  </head>
+  <body>
+    <!--Cabeçalho com nome-->
+    <!-- Linha de cima -->
+    <div style="background-color: lightgoldenrodyellow">
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+      <!--Cabeçalho com nome-->
+      <section>
+        <h1>Felipe Leão</h1>
+        <img src="img/Felipe_Leão.jpg" width="10%" />
+      </section>
+    </div>
+    <!-- Colunas -->
+    <div class="container" style="pandding-top: 100px">
+      <div class="row">
+        <!-- colunas1 -->
+        <div class="col-sm-4" style="background-color: white">
+          <h1>Informações pessoais</h1>
+          <br />
+          <p>
+            Sou formado no colégio Embraer Juarez Wanderley, onde cursei todo
+            meu ensino médio. Durante este período participei de olimpíadas
+            cientificas, nas quais acabei conquistando medalhas em algumas delas
+            como OBA, medalha de ouro, OBInvest, medalha de prata, além de
+            projetos extra curriculares como bootcamps e hackathons sendo eles:
+            Bootcamp Inteli, no qual o objetivo era criar um jogo personalizado
+            e Hackathon Ismart, que possuía a intenção de elaborar uma proposta
+            para agregar mais valor ao processo seletivo da instituição Ismart.
+          </p>
+          <ui>
+            <h2>Informações de contato</h2>
+            <li>Telefone: 12 983060600</li>
+            <li>Email: felipe090304@gmail.com</li>
+            <li>
+              Linkedin: https://www.linkedin.com/in/felipe-le%C3%A3o-9a8a601a6/
+            </li>
+          </ui>
+        </div>
+        <div class="col-sm-8" style="background-color: tan" id="curso">
+          <h1>Informações Academicas</h1>
+          <li>Ensino médio: Colegio Juarez Wanderley</li>
+          <li>Medalha de ouro OBA</li>
+          <li>Medalha de prata OBInvest</li>
+          <li>Bootcamp Inteli</li> 
+          <br>
+          <button> curso</button>
+        <!-- coluna2 -->
+
+        <script>
+            
+          $(document).ready(function () {
+            academicos.list();
+          })
+
+            $("button").click(function(){ 
+              debugger;
+              var text = `Engenharia da computação`;
+              $("#curso").append("<li> "+text+" </li>");
+             });
+
+             var academicos = {
+
+              list() {
+                $.ajax({
+                  url: "http://127.0.0.1:3011/users",
+                  type: "GET",
+                  success: data => {
+                    var lis = '';
+                    data.forEach(element => {
+                      lis += `curso: ${element.curso}`;
+                    })
+                    $("#main").html(lis);
+                  }
+                  })
+                }
+              }
+             
+        </script>
+        <br><br>
+        <iframe id="prin" name="prin" style="display: none"></iframe>
+        <form method="post" action="http://127.0.0.1:3011/userinsert" target="prin">
+          <h4>Insira um curso novo</h4>
+          <input type="text" name="curso">
+          <input type="submit">
+        </form>
+        <div id="main"></div>
+      </div>
+      </div>
+  </body>
+</html>
