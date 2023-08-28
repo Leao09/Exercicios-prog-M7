@@ -1,11 +1,18 @@
-version: "3"
+version: '3.9'
+
 services:
-  build: .
-  comand: "npm run start"
-  working_dir: /usr/app
-  enviroment:
-  - NODE_ENV=production
-  expose:
-  - "3000"
-  ports:
-  - "3000:3000"
+  databse:
+    image: postgres
+    container_name: v1
+    ports: 
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORLD=admin
+      - POSTGRES_DB=database
+    volumes:
+    - pgdata:/data/postgres
+volumes: 
+  pgdata:
+    driver: local
+
