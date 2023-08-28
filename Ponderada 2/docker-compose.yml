@@ -1,0 +1,11 @@
+version: "3"
+services:
+  build: .
+  comand: "npm run start"
+  working_dir: /usr/app
+  enviroment:
+  - NODE_ENV=production
+  expose:
+  - "3000"
+  ports:
+  - "3000:3000"
