@@ -1,28 +1,33 @@
 version: "3.8"
 
 services:
-  db:
+  dba:
     image: postgres:15-alpine
+    container_name: dba
     ports:
-      - "5432:5432"
+      - 5433:5433
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres
+       POSTGRES_USER: "user"
+       POSTGRES_PASSWORD: "password"
+       POSTGRES_DB: "mydb"
     volumes:
       - pgdata:/var/lib/postgresql/data/
 
   server:
     build:
       context: ./backend/
+      dockerfile: Dockerfile
     ports:
       - 1234:1234
     depends_on:
-      - db
+      - dba
+    restart: always
+
 
   frontend:
     build:
       context: ./Frontend
+      dockerfile: Dockerfile
     ports:
       - 3000:3000
     depends_on:
