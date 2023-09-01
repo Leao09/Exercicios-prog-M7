@@ -6,9 +6,9 @@ generator client {
   //binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
-datasource db {
+datasource mydb {
   provider = "postgresql"
-  url      = "postgresql://user:password@dba:5433/mydb"
+  url      = "postgres://user:password@dba:5432/mydb"
 }
 
 model produtos {

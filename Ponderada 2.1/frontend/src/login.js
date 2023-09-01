@@ -4,13 +4,13 @@ import axios from "axios";
 
 function Login() {
   async function createUser() {
-    const response = await axios.post("http://server:8080/user", {
+    const response = await axios.post("http://localhost:8000/signup", {
       Email: inputValueEmail,
       password: inputValuepassword,
     });
     const data = await response.data;
-
-    window.localStorage.setItem("token", data);
+    console.log(data);
+    window.localStorage.setItem("token", data["acess token"]);
 
     setInputValueEmail("");
     setInputValuepassword("");

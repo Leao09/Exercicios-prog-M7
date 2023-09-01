@@ -31,27 +31,33 @@ function HomePage() {
   }
 
   async function getTodos() {
-    const response = await axios.get("http://server:8080/produtos");
+    const response = await axios.get("http://localhost:8000/produtos", {
+      headers: { "Content-Type": "application/json" },
+    });
     setTodos(response.data);
   }
   async function deleteTodo(todo) {
     const token = window.localStorage.getItem("token");
-    await axios.delete(`http://server:8080/produtos/${todo.Id}`, {
-      headers: { "x-access-token": token },
+    console.log(todo.id);
+    await axios.delete(`http://localhost:8000/produtos/${todo.id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
     });
     getTodos();
   }
   async function createTodo() {
     const token = window.localStorage.getItem("token");
     const response = await axios.post(
-      "http://server:8080/produtos",
+      "http://localhost:8000/produtos",
 
       {
         Name: inputValueProduto,
         Price: parseInt(inputValuePreco),
       },
       {
-        headers: { "x-access-token": token },
+        headers: { Authorization: `Bearer ${token}` },
       }
     );
     console.log(response);
@@ -65,11 +71,22 @@ function HomePage() {
     setInputVisibility(true);
   }
   async function editTodo() {
-    await axios.put("http://server:8080/produtos", {
-      Id: selectedTodo.Id,
-      Name: inputValueProduto,
-      Price: parseInt(inputValuePreco),
-    });
+    const token = window.localStorage.getItem("token");
+
+    await axios.put(
+      "http://localhost:8000/produtos",
+      {
+        id: selectedTodo.id,
+        Name: inputValueProduto,
+        Price: parseInt(inputValuePreco),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     setSelectedTodo();
     setInputVisibility(false);
     getTodos();

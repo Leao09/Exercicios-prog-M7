@@ -1,19 +1,16 @@
-FROM node:alpine 
+FROM node:latest
 
-WORKDIR /api
+WORKDIR /backend
 
-COPY package.json .
+# Copiando os arquivos necessários para dentro do container
+COPY package.json ./
+COPY package-lock.json ./
+COPY prisma ./prisma
 
-COPY package-lock.json .
-
+# Instalando as dependências do projeto
 RUN npm install
 
-COPY . . 
-
-EXPOSE 1234
-
-RUN npx prisma generate
-
-COPY . .
-
-CMD ["npm","start"]
+# Copiando todos os outros arquivos do projeto para dentro do container
+COPY . ./
+# Comando para iniciar a aplicação dentro do container
+CMD ["npm", "start"]

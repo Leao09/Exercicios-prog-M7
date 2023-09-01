@@ -5,33 +5,36 @@ services:
     image: postgres:15-alpine
     container_name: dba
     ports:
-      - 5433:5433
+      - 5432:5432
     environment:
        POSTGRES_USER: "user"
        POSTGRES_PASSWORD: "password"
        POSTGRES_DB: "mydb"
     volumes:
       - pgdata:/var/lib/postgresql/data/
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-mydb}", "-U", "${POSTGRES_USER:-user}",]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   server:
     build:
-      context: ./backend/
+      context: ./backend
       dockerfile: Dockerfile
+    restart: on-failure
     ports:
-      - 1234:1234
+      - 8080:8080
     depends_on:
-      - dba
-    restart: always
-
-
+      dba:
+        condition: service_healthy
   frontend:
     build:
-      context: ./Frontend
+      context: ./frontend
       dockerfile: Dockerfile
     ports:
       - 3000:3000
     depends_on:
       - server
-
 volumes:
   pgdata:
