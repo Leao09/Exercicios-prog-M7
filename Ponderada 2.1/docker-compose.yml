@@ -14,8 +14,6 @@ services:
 
   server:
     image: felipeleao0902/podnerada2-server
-    build:
-      context: ./backend
     command: bash -c 'uvicorn app.main:app --host 0.0.0.0'
     ports:
       - "8000:8000"
@@ -26,8 +24,6 @@ services:
 
   frontend:
     image: felipeleao0902/ponderada2-frontend
-    build:
-      context: ./frontend
     ports:
       - "3000:3000"
 
