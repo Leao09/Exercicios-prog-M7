@@ -16,7 +16,7 @@ class User(ormar.Model):
         tablename = "user"
 
     Id: int = ormar.Integer(primary_key=True)
-    Email: str = ormar.String(max_length=128, unique=True, nullable=False)
+    email: str = ormar.String(max_length=128, unique=True, nullable=False)
     password: str = ormar.String(max_length=16, nullable=False)
 
 
