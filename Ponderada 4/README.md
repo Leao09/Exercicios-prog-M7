@@ -148,7 +148,7 @@ modelo:
       - "8001:8001"
 
   server:
-    image: felipeleao0902/podnerada2-server
+    image: felipeleao0902/ponderada4-back
     command: bash -c 'uvicorn app.main:app --host 0.0.0.0'
     ports:
       - "8000:8000"
@@ -158,7 +158,7 @@ modelo:
       - db
 
   frontend:
-    image: felipeleao0902/ponderada2-frontend
+    image: felipeleao0902/ponderada4-front
     ports:
       - "3000:3000"
 
