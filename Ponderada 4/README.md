@@ -69,3 +69,103 @@ def predict(data: ApiInput):
 </code></pre>
 
 ## AWS 
+
+### Criando as instancias 
+![Alt text](<Captura de tela 2023-10-04 145448.png>)
+#### front
+Para a configuração do ec2 do frontend utilizei os seguintes códigos 
+<pre><code>ssh -i "ponderada.pem" ubuntu@ec2-3-94-52-175.compute-1.amazonaws.com
+sudo apt update
+sudo apt upgrade
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+. ~/.nvm/nvm.sh
+nvm install node
+git clone https://github.com/Leao09/Exercicios-prog-M7.git
+cd Exercicio-prog-m7/Ponderada 4/frontend
+npm run dev</code></pre> 
+ele esta rodando na seguinte url: http://3.94.52.175:3000
+
+## backend
+para a configuração do ec2 do backend utilizei os seguintes
+<pre><code>ssh -i "ponderada.pem" ubuntu@ec2-3-94-52-175.compute-1.amazonaws.com
+sudo apt update
+sudo apt upgrade
+sudo apt install python3-pip
+git clone https://github.com/Leao09/Exercicios-prog-M7.git
+cd Exercicio-prog-m7/Ponderada 4/backend
+sudo pip3 install -r requirements.txt
+python3 -m uvicorn main:app --host 0.0.0.0 --port 8000</code></pre>
+
+ele esta rodando na seguinte url: http://18.204.213.49:8000
+### Criação de um rds
+Utilizei um banco de dados em postgres e para isso criei um rds com as informações
+<pre><code>DB_NAME: postgres
+DB_USER: postgres
+DB_PASSWORD: admin123
+DB_HOST: pond4.clt0opifs3lm.us-east-1.rds.amazonaws.com</code></pre>
+### Imagens da rotas 
+![Alt text](<Captura de tela 2023-10-04 164954.png>)
+## API 
+para aconfiguração do ec2 do modelo utilizei os seguintes códigos
+<pre><code>ssh -i "ponderada.pem" ubuntu@ec2-3-94-52-175.compute-1.amazonaws.com
+sudo apt update
+sudo apt upgrade
+sudo apt install python3-pip
+git clone https://github.com/Leao09/Exercicios-prog-M7.git
+cd Exercicio-prog-m7/Ponderada 4/modelo
+sudo pip3 install -r requirements.txt
+python3 Api.py</code></pre>
+dessa forma ela está rodando na seguinte url:http://44.215.236.172:8001
+### Imagens da rotas
+![Alt text](<Captura de tela 2023-10-04 165016.png>)
+### Configuração do grupo de segurança 
+Para criação do grupo de segurança de cada ec2 eu apenas criei uma regra de entrada com protocolo TCP personalizad tipo TCP porta repectiva do ec2 (front 3000,back 8000, api 8001) para aceitar acessos de qualquer origem 0.0.0.0
+### versão final 
+![Alt text](progponderada4.gif)
+
+# Como rodar a aplicação
+Para rodar a aplicação basta utilizar os seguintes comando em um arquivo Docker-compose.yml
+<pre><code>
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    expose:
+      - 5432
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+modelo:
+    image: felipeleao0902/pondearada3
+    build:
+      context: ./api
+    ports:
+      - "8001:8001"
+
+  server:
+    image: felipeleao0902/podnerada2-server
+    command: bash -c 'uvicorn app.main:app --host 0.0.0.0'
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+    depends_on:
+      - db
+
+  frontend:
+    image: felipeleao0902/ponderada2-frontend
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:
+</code></pre>
+E por fim rodar o seguinte comando 
+ <pre><code>
+    docker compose up -d --build
+ </code></pre>
