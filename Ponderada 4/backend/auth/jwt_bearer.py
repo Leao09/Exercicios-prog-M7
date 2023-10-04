@@ -8,8 +8,11 @@ class jwtBearer(HTTPBearer):
 
     async def __call__(self, request: Request):
         credentials: HTTPAuthorizationCredentials = await super(jwtBearer, self).__call__(request)
+        print("Credencials: " + str(credentials))
         if credentials:
             if not credentials.scheme == "Bearer":
+                raise HTTPException(status_code=403, detail="Token inválido ou expirado.")
+            if str(credentials.credentials) == 'null':
                 raise HTTPException(status_code=403, detail="Token inválido ou expirado.")
             return credentials.credentials
         else:

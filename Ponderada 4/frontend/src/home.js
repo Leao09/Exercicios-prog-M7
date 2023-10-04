@@ -34,10 +34,12 @@ const PieChart = () => {
       const startupData = response.data;
 
       // Contar quantos dados são iguais a 1 e quantos são iguais a 0
-      const countOnes = startupData.filter((startup) => startup.Status === 1)
-        .length;
-      const countZeros = startupData.filter((startup) => startup.Status === 0)
-        .length;
+      const countOnes = startupData.filter(
+        (startup) => startup.Status === 1
+      ).length;
+      const countZeros = startupData.filter(
+        (startup) => startup.Status === 0
+      ).length;
 
       // Estruturar os dados para o gráfico
       const updatedChartData = {
@@ -55,23 +57,30 @@ const PieChart = () => {
 
   async function createData() {
     try {
-      const token = window.localStorage.getItem('token');
-       console.log(token);
-      await axios.post("http://localhost:8000/startups", {
-        Name: inputValues.Nome,
-        field_0: inputValues.Valor0,
-        field_1: inputValues.Valor1,
-        field_2: inputValues.Valor2,
-        field_3: inputValues.Valor3,
-        field_4: inputValues.Valor4,
-        field_5: inputValues.Valor5,
-        Faturamento: inputValues.Faturamento,
-      },{headers: { Authorization: `Bearer ${token}`}});
+      const token = window.localStorage.getItem("token");
+      await axios.post(
+        "http://localhost:8000/startups",
+        {
+          Name: inputValues.Nome,
+          field_0: inputValues.Valor0,
+          field_1: inputValues.Valor1,
+          field_2: inputValues.Valor2,
+          field_3: inputValues.Valor3,
+          field_4: inputValues.Valor4,
+          field_5: inputValues.Valor5,
+          Faturamento: inputValues.Faturamento,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
       // Após a criação bem-sucedida, atualize o gráfico
       fetchChartData();
     } catch (error) {
-      console.error("Erro ao criar dados:", error);
+      alert(`erro de conexão:  ${error.response.data.detail.toString()}`);
+      console.error(
+        "Erro ao criar dados:",
+        error.response.data.detail.toString()
+      );
     }
   }
 
