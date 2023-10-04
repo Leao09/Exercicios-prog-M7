@@ -10,7 +10,7 @@ app = APIRouter()
 async def predict(data:inputModel):
      
     async with httpx.AsyncClient() as client:
-        response = await client.post("http://localhost:8001/predict",json=data)
+        response = await client.post("44.215.236.172/predict",json=data)
             
     print(response)
     data = response.json()

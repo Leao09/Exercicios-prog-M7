@@ -2,7 +2,7 @@ import databases
 import ormar
 import sqlalchemy
 
-database = databases.Database('sqlite:///db.db')
+database = databases.Database('postgresql://postgres:admin123@pond4.clt0opifs3lm.us-east-1.rds.amazonaws.com:5432/postgres')
 metadata = sqlalchemy.MetaData()
 
 
@@ -29,5 +29,5 @@ class Startup(ormar.Model):
     Status: float = ormar.Float()
 
 ##engine = sqlalchemy.create_engine(settings.db_url)
-engine = sqlalchemy.create_engine('sqlite:///db.db', echo=True)
+engine = sqlalchemy.create_engine('postgresql://postgres:admin123@pond4.clt0opifs3lm.us-east-1.rds.amazonaws.com:5432/postgres', echo=True)
 metadata.create_all(engine)
