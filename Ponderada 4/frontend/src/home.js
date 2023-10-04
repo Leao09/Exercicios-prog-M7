@@ -28,7 +28,7 @@ const PieChart = () => {
 
   async function fetchChartData() {
     try {
-      const response = await axios.get("18.204.213.49/startups", {
+      const response = await axios.get("http://18.204.213.49/startups", {
         headers: { "Content-Type": "application/json" },
       });
       const startupData = response.data;
@@ -59,7 +59,7 @@ const PieChart = () => {
     try {
       const token = window.localStorage.getItem("token");
       await axios.post(
-        "18.204.213.49/startups",
+        "http://18.204.213.49/startups",
         {
           Name: inputValues.Nome,
           field_0: inputValues.Valor0,
