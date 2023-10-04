@@ -5,7 +5,7 @@ import axios from "axios";
 function Login() {
   async function createUser() {
     console.log("entrei");
-    const response = await axios.post("http://18.204.213.49/users", {
+    const response = await axios.post("http://18.204.213.49:8000/users", {
       email: inputValueEmail,
       password: inputValuepassword,
     });
